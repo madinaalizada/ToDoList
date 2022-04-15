@@ -283,8 +283,8 @@ class DOMManipulator {
   }
 
   _showError(message) {
-    const alert = document.querySelector('#alert');
-    document.querySelector('#alert span').textContent = message;
+    const alert = this._getElement;
+    this._getElement('#alert span').textContent = message;
     alert.style.display = 'block';
     setTimeout(() => {alert.style.display = 'none'}, 3000);
     this.displayTodos();
