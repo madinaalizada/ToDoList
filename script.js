@@ -82,7 +82,7 @@ class TodoService {
    * @throws Throws error when title argument is empty.
    */
   editTodo(id, title) {
-    if (!title) throw new Error("You can not empty title.");
+    if (!title.trim()) throw new Error("You can not empty title.");
     const todos = [...this._todos];
     todos[this._getIndex(id)].title = title.trim();
     this._todos = todos;
@@ -287,6 +287,7 @@ class DOMManipulator {
     document.querySelector('#alert span').textContent = message;
     alert.style.display = 'block';
     setTimeout(() => {alert.style.display = 'none'}, 3000);
+    this.displayTodos();
   }
 }
 
