@@ -54,6 +54,11 @@ class TodoService {
     }
   }
 
+  setTodos(todos) {
+    this._todos = todos;
+    this._commit();
+  }
+
   /**
    * Gets todos.
    * @returns Todos array.
@@ -68,8 +73,7 @@ class TodoService {
    */
   addTodo(title = "") {
     if (!this._todos.some((t) => !t.title)) {
-      this._todos = [...this._todos, new Todo(this._generateId(), title)];
-      this._commit();
+      this.setTodos([...this._todos, new Todo(this._generateId(), title)]);
     } else {
       throw new Error("There is empty element in todo list");
     }
@@ -85,8 +89,7 @@ class TodoService {
     if (!title.trim()) throw new Error("You can not empty title.");
     const todos = [...this._todos];
     todos[this._getIndex(id)].title = title.trim();
-    this._todos = todos;
-    this._commit();
+    this.setTodos(todos);
   }
 
   /**
@@ -94,9 +97,7 @@ class TodoService {
    * @param {number} id Todo's identifier.
    */
   deleteTodo(id) {
-    this._todos = this._todos.filter((t) => t.id !== id);
-
-    this._commit();
+    this.setTodos(this._todos.filter((t) => t.id !== id));
   }
 
   /**
@@ -110,8 +111,7 @@ class TodoService {
         t1.title.toUpperCase() > t2.title.toUpperCase() ? 1 : -1
       );
     if (!direction) todos.reverse();
-    this._todos = todos;
-    this._commit();
+    this.setTodos(todos);
   }
 
   /**
@@ -283,7 +283,7 @@ class DOMManipulator {
   }
 
   _showError(message) {
-    const alert = this._getElement;
+    const alert = this._getElement('#alert');
     this._getElement('#alert span').textContent = message;
     alert.style.display = 'block';
     setTimeout(() => {alert.style.display = 'none'}, 3000);
